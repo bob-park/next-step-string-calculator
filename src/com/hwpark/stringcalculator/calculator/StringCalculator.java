@@ -35,7 +35,7 @@ public class StringCalculator {
       splitString = customSeparator;
     }
 
-    return calculate(valueStr, splitString);
+    return calculate(valueStr, escapeSeparator(splitString));
   }
 
   private int calculate(String value, String splitStr) {
@@ -70,6 +70,25 @@ public class StringCalculator {
 
     if (result < 0) {
       throw new NegativeNumberException();
+    }
+
+    return result;
+  }
+
+  /**
+   * regex 에서 사용하는 문자를 escape 해주는 메소드
+   *
+   * @param separator custom separator
+   * @return {@code String}
+   */
+  private String escapeSeparator(String separator) {
+
+    String result = separator;
+
+    if (separator.contains("*")) {
+      result = separator.replaceAll("[*]", "\\\\*");
+    } else if(separator.contains(".")){
+      result = separator.replaceAll("[.]", "\\\\.");
     }
 
     return result;
