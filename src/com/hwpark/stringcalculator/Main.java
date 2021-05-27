@@ -9,7 +9,7 @@ public class Main {
 
     var sc = new Scanner(System.in);
 
-    StringCalculator calc = new StringCalculator();
+    var calc = new StringCalculator();
 
     int result = calc.add(sc.nextLine());
 
