@@ -4,6 +4,8 @@ import static com.hwpark.stringcalculator.utils.CommonUtils.isEmpty;
 
 import com.hwpark.stringcalculator.exception.InvalidInputException;
 import com.hwpark.stringcalculator.exception.NegativeNumberException;
+
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 public class StringCalculator {
@@ -36,20 +38,16 @@ public class StringCalculator {
       splitString = customSeparator;
     }
 
-    return calculate(valueStr, escapeSeparator(splitString));
+    int[] numbers = extractNumber(valueStr, escapeSeparator(splitString));
+
+    return Arrays.stream(numbers).sum();
   }
 
-  private int calculate(String value, String splitStr) {
-
-    var sum = 0;
+  private int[] extractNumber(String value, String splitStr) {
 
     String[] tokens = value.split(splitStr);
 
-    for (String token : tokens) {
-      sum += toInt(token);
-    }
-
-    return sum;
+    return Arrays.stream(tokens).mapToInt(this::toInt).toArray();
   }
 
   private String getDefaultSplits() {
