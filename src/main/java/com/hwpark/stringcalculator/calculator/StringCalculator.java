@@ -8,9 +8,10 @@ import java.util.regex.Pattern;
 
 public class StringCalculator {
 
-  private static final String REGEX_SEPARATOR = "(\\/\\/(\\D+)\\\\n)?(.*)";
+  private static final String REGEX_SEPARATOR = "//(.?)\\\\n(.*)";
 
-  private static final String[] DEFAULT_SEPARATORS = {",", ":"};
+  private static final String[] DEFAULT_SEPARATORS = {",", ";"};
+  private static final String[] ESCAPE_CHAR_LIST = {"*", ".", "?"};
 
   private static final Pattern pattern = Pattern.compile(REGEX_SEPARATOR);
 
@@ -24,8 +25,8 @@ public class StringCalculator {
 
     var splitString = getDefaultSplits();
 
-    String customSeparator = matcher.group(2);
-    String valueStr = matcher.group(3);
+    String customSeparator = matcher.group(1);
+    String valueStr = matcher.group(2);
 
     if (isEmpty(valueStr)) {
       return 0;
@@ -85,10 +86,12 @@ public class StringCalculator {
 
     String result = separator;
 
-    if (separator.contains("*")) {
-      result = separator.replaceAll("[*]", "\\\\*");
-    } else if(separator.contains(".")){
-      result = separator.replaceAll("[.]", "\\\\.");
+    for (String escapeChar : ESCAPE_CHAR_LIST) {
+      if (separator.contains(escapeChar)) {
+        result =
+            separator.replaceAll(
+                String.format("[%s]", escapeChar), String.format("\\\\%s", escapeChar));
+      }
     }
 
     return result;
