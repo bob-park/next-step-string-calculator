@@ -94,14 +94,6 @@ public class StringCalculator {
       }
     }
 
-//    if (separator.contains("*")) {
-//      result = separator.replaceAll("[*]", "\\\\*");
-//    } else if (separator.contains(".")) {
-//      result = separator.replaceAll("[.]", "\\\\.");
-//    } else if (separator.contains("?")) {
-//      result = separator.replaceAll("[?]", "\\\\?");
-//    }
-
     return result;
   }
 }
